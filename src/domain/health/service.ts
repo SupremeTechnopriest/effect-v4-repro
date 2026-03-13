@@ -20,6 +20,9 @@ const make = Effect.gen(function* () {
   return { checkHealth: CheckHealth } as const
 })
 
-export class HealthService extends ServiceMap.Service<HealthService>()('@/Health/Service', { make }) {
+export class HealthService extends ServiceMap.Service<HealthService>()(
+  '@/Health/Service',
+  { make }
+) {
   static Default = Layer.effect(HealthService, HealthService.make)
 }
