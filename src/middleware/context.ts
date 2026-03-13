@@ -51,7 +51,12 @@ export const RequestContextLive = Layer.succeed(
           headers['user-agent'] ||
           'Unknown'
 
-        return { requestId: span.traceId, ipAddress, userAgent, timezone: 'UTC' }
+        return {
+          requestId: span.traceId,
+          ipAddress,
+          userAgent,
+          timezone: 'UTC'
+        }
       })
     )
 )

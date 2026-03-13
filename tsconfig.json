@@ -4,6 +4,9 @@
     "noErrorTruncation": true,
     "baseUrl": "./",
     "skipLibCheck": true,
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "target": "esnext",
     "paths": {
       "@/*": ["src/*"]
     }

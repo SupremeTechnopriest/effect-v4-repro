@@ -12,6 +12,9 @@ const make = Effect.gen(function* () {
   return { getDemo: GetDemo } as const
 })
 
-export class DemoService extends ServiceMap.Service<DemoService>()('@/Demo/Service', { make }) {
+export class DemoService extends ServiceMap.Service<DemoService>()(
+  '@/Demo/Service',
+  { make }
+) {
   static Default = Layer.effect(DemoService, DemoService.make)
 }
