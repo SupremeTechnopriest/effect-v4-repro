@@ -1,13 +1,12 @@
-import { Layer } from 'effect'
-import { BunRuntime } from '@effect/platform-bun'
+import { Layer } from "effect";
+import { BunRuntime } from "@effect/platform-bun";
 
-import { makeHttpApi } from '@/http'
-import { makeHttpLayer } from '@/layers/http'
-import { makeLogLayer } from '@/layers/log'
-import { Api } from './api'
+import { makeHttpApi } from "@/http";
+import { makeHttpLayer } from "@/layers/http";
+import { makeLogLayer } from "@/layers/log";
 
-const ApiLive = makeHttpApi()
-const HttpLive = makeHttpLayer(Api, ApiLive)
-const LogLive = makeLogLayer()
+const ApiLive = makeHttpApi();
+const HttpLive = makeHttpLayer(ApiLive);
+const LogLive = makeLogLayer();
 
-HttpLive.pipe(Layer.provide(LogLive), Layer.launch, BunRuntime.runMain)
+HttpLive.pipe(Layer.provide(LogLive), Layer.launch, BunRuntime.runMain);

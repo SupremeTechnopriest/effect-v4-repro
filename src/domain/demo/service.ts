@@ -1,20 +1,25 @@
-import { Effect, Layer, ServiceMap } from 'effect'
-import { DemoResponse } from './model'
+import { Effect, Layer, Context } from "effect";
+import { DemoResponse } from "./model";
+import { CurrentApplication } from "@/middleware/application-auth";
 
-const make = Effect.gen(function* () {
-  const GetDemo = Effect.succeed(
-    DemoResponse.makeUnsafe({
-      message: 'hello from repro',
-      timestamp: new Date().toISOString()
-    })
-  )
+const make = Effect.sync(function () {
+  const GetDemo = (id: string) =>
+    Effect.gen(function* () {
+      const app = yield* CurrentApplication;
 
-  return { getDemo: GetDemo } as const
-})
+      Effect.succeed(
+        DemoResponse.make({
+          id,
+          appId: app.id,
+          message: "hello from repro",
+          timestamp: new Date().toISOString(),
+        }),
+      );
+    });
 
-export class DemoService extends ServiceMap.Service<DemoService>()(
-  '@/Demo/Service',
-  { make }
-) {
-  static Default = Layer.effect(DemoService, DemoService.make)
+  return { getDemo: GetDemo } as const;
+});
+
+export class DemoService extends Context.Service<DemoService>()("@/Demo/Service", { make }) {
+  static Live = Layer.effect(DemoService, DemoService.make);
 }
